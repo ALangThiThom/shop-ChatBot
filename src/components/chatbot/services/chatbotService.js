@@ -1,10 +1,12 @@
 import { getBotResponse as getLocalResponse } from './localSearchEngine';
 import { products } from '../../data/products';
 import { SYSTEM_PROMPT } from './chatbotPrompt';
-
+//npm install @google/generative-ai
 // Tùy chọn cấu hình chế độ Chatbot: 'local' (offline rules) | 'gemini' (Google Gemini API)
 const CHATBOT_MODE = import.meta.env.VITE_CHATBOT_MODE || 'local';
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+// Model hiện tại nên dùng cho text chat với Gemini
+const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL || 'gemini-3.5-flash';
 
 let geminiModel = null;
 let isInitializing = false;
@@ -21,8 +23,8 @@ async function initializeGemini() {
   try {
     const { GoogleGenerativeAI } = await import('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    geminiModel = genAI.getGenerativeModel({ model: 'gemini-pro' });
-    console.log('✅ Gemini model initialized');
+    geminiModel = genAI.getGenerativeModel({ model: GEMINI_MODEL });
+    console.log(`✅ Gemini model initialized (${GEMINI_MODEL})`);
   } catch (error) {
     console.error('❌ Gemini init failed:', error);
   }

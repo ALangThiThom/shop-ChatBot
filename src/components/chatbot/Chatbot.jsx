@@ -101,7 +101,7 @@ export default function Chatbot() {
 
             {loading && (
               <div className="chatbot-loading">
-                AI đang tìm trang phục phù hợp...
+                chờ shop xíu nhá...
               </div>
             )}
             <div ref={chatEndRef} />
